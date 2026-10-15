@@ -32,7 +32,7 @@ fastify.get('/api/health', async (request, reply) => {
     }
 });
 
-// 5. Inisialisasi Peladen
+/* 5. Inisialisasi Peladen
 const start = async () => {
     const targetPort = process.env.PORT || 8080;
     try {
@@ -48,6 +48,11 @@ const start = async () => {
             process.exit(1);
         }
     }
+}; 
+start(); */
+module.exports = async (req, res) => {
+    // Pastikan semua plugin dan rute Fastify sudah siap
+    await fastify.ready();
+    // Lempar request dari Vercel ke dalam mesin Fastify
+    fastify.server.emit('request', req, res);
 };
-
-start();

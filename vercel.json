@@ -1,7 +1,11 @@
 {
   "version": 2,
+  "builds": [
+    { "src": "src/app.js", "use": "@vercel/node" },
+    { "src": "public/**", "use": "@vercel/static" }
+  ],
   "rewrites": [
-    { "source": "/api/(.*)", "destination": "/api/$1" },
+    { "source": "/api/(.*)", "destination": "/src/app.js" },
     { "source": "/", "destination": "/public/landing.html" },
     { "source": "/(.*)", "destination": "/public/$1" }
   ]
