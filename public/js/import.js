@@ -1,4 +1,3 @@
-// public/js/import.js
 document.addEventListener('DOMContentLoaded', () => {
     const userStr = localStorage.getItem('surveybiz_user');
     if (!userStr) { window.location.href = 'index.html'; return; }
@@ -18,10 +17,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const removeFileBtn = document.getElementById('removeFileBtn');
     const uploadBtn = document.getElementById('uploadBtn');
 
-    // 1. PAKSA tombol untuk selalu aktif saat halaman dimuat
     if (uploadBtn) {
         uploadBtn.disabled = false;
-        uploadBtn.style.pointerEvents = 'auto'; // Paksa agar bisa diklik
+        uploadBtn.style.pointerEvents = 'auto';
         uploadBtn.classList.remove('opacity-50', 'cursor-not-allowed');
     }
 
@@ -47,7 +45,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (uploadBtn) {
         uploadBtn.addEventListener('click', () => {
-            // Cek apakah library XLSX berhasil dimuat oleh browser
             if (typeof XLSX === 'undefined') {
                 alert("Sistem masih memuat pustaka pembaca Excel. Pastikan koneksi internet Anda aktif, atau muat ulang (Refresh) halaman.");
                 return;
@@ -68,12 +65,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     const data = new Uint8Array(e.target.result);
                     const workbook = XLSX.read(data, { type: 'array' });
                     const sheetName = workbook.SheetNames[0];
-                    // Baca file menjadi JSON, defval memastikan sel kosong terbaca sebagai string kosong
                     const jsonRows = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], { defval: '' });
 
                     console.log("Data terkirim ke backend:", jsonRows.length, "baris");
 
-                    const response = await fetch('http://localhost:8080/api/import/process-json', {
+                    // URL DIPERBAIKI
+                    const response = await fetch('/api/import/process-json', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ filename: file.name, data: jsonRows })
@@ -109,7 +106,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// Aksesibilitas: Enter / Spasi membuka dialog pilih berkas
 document.getElementById('dropzone').addEventListener('keydown', e => {
   if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); e.currentTarget.click(); }
 });

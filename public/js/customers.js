@@ -1,4 +1,3 @@
-// public/js/customers.js
 document.addEventListener('DOMContentLoaded', () => {
     const userStr = localStorage.getItem('surveybiz_user');
     if (!userStr) { window.location.href = 'index.html'; return; }
@@ -30,7 +29,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function loadCustomers() {
         try {
-            const response = await fetch(`http://localhost:8080/api/customers?status=${currentMode}`);
+            // URL DIPERBAIKI
+            const response = await fetch(`/api/customers?status=${currentMode}`);
             const result = await response.json();
             if (result.success) renderTable(result.data);
         } catch (error) {
@@ -52,7 +52,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const tr = document.createElement('tr');
             tr.className = 'hover:bg-slate-50 transition-colors customer-row';
             
-            // PENGAMAN VARIABEL: Mencegah teks "undefined" bocor ke layar
             const custId = customer.customer_id || customer.id || '-';
             const custName = customer.name || '-';
             const custEmail = customer.email || '-';
@@ -74,7 +73,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
 
-            // Menggunakan variabel yang sudah dijamin tidak undefined
             tr.innerHTML = `
                 <td class="p-4 font-mono text-xs text-slate-500">${custId}</td>
                 <td class="p-4 font-medium text-slate-800 searchable-name">${custName}</td>
@@ -102,7 +100,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // PROSES TAMBAH PELANGGAN YANG UTUH
     if (addCustomerBtn) {
         addCustomerBtn.addEventListener('click', async () => {
             const name = prompt("Masukkan Nama Pelanggan Baru:");
@@ -111,7 +108,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const email = prompt("Masukkan Email Pelanggan:");
             if (!email) return; 
             
-            // Tambahkan input No HP agar data utuh & tidak undefined/dummy
             const phone = prompt("Masukkan No Telepon Pelanggan:");
             if (!phone) return;
 
@@ -119,10 +115,10 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!city) return;
 
             try {
-                const res = await fetch('http://localhost:8080/api/customers', {
+                // URL DIPERBAIKI
+                const res = await fetch('/api/customers', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    // Kirim semua data utuh
                     body: JSON.stringify({ name: name, email: email, phone: phone, city: city }) 
                 });
                 const result = await res.json();
@@ -148,7 +144,8 @@ window.archiveCustomer = async function(id, targetStatus) {
     const msg = targetStatus === 'Archived' ? 'mengarsipkan' : 'memulihkan';
     if (!confirm(`Yakin ingin ${msg} data dengan ID: ${id}?`)) return;
     try {
-        const response = await fetch(`http://localhost:8080/api/customers/${id}/status`, {
+        // URL DIPERBAIKI
+        const response = await fetch(`/api/customers/${id}/status`, {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ status: targetStatus })
@@ -160,7 +157,8 @@ window.archiveCustomer = async function(id, targetStatus) {
 window.deleteCustomer = async function(id) {
     if (!confirm(`TINDAKAN FATAL: Yakin ingin menghapus permanen data ID: ${id} dari database? Data tidak bisa dikembalikan!`)) return;
     try {
-        const response = await fetch(`http://localhost:8080/api/customers/${id}`, {
+        // URL DIPERBAIKI
+        const response = await fetch(`/api/customers/${id}`, {
             method: 'DELETE'
         });
         if (response.ok) { 

@@ -4,9 +4,18 @@
     { "src": "src/app.js", "use": "@vercel/node" },
     { "src": "public/**", "use": "@vercel/static" }
   ],
-  "rewrites": [
-    { "source": "/api/(.*)", "destination": "/src/app.js" },
-    { "source": "/", "destination": "/public/landing.html" },
-    { "source": "/(.*)", "destination": "/public/$1" }
+  "routes": [
+    { 
+      "src": "/api/(.*)", 
+      "dest": "/src/app.js" 
+    },
+    { 
+      "src": "/", 
+      "dest": "/public/landing.html" 
+    },
+    { 
+      "src": "/(.*)", 
+      "dest": "/public/$1" 
+    }
   ]
 }

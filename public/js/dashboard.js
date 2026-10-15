@@ -1,6 +1,4 @@
-// public/js/dashboard.js
 document.addEventListener('DOMContentLoaded', async () => {
-    // 1. Cek Sesi Login (Keamanan)
     const userStr = localStorage.getItem('surveybiz_user');
     if (!userStr) { 
         window.location.href = 'index.html'; 
@@ -9,12 +7,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     const user = JSON.parse(userStr);
 
-    // 2. Isi Profil Pengguna di Header
     document.getElementById('userName').textContent = user.name || user.username || 'Pengguna';
     document.getElementById('userRole').textContent = user.role || 'Manager';
     document.getElementById('userInitials').textContent = (user.name || user.username || 'U').charAt(0).toUpperCase();
 
-    // 3. Batasi Menu Berdasarkan Peran (RBAC)
     if (user.role === 'Manager') {
         const menuCustomers = document.getElementById('menu-customers');
         const menuImport = document.getElementById('menu-import');
@@ -25,21 +21,19 @@ document.addEventListener('DOMContentLoaded', async () => {
         if(menuImport) menuImport.style.display = 'none';
     }
 
-    // 4. Tarik Data dari API Fastify
     try {
+        // URL DIPERBAIKI
         const [statsResponse, errorResponse] = await Promise.all([
-            fetch('http://localhost:8080/api/customers/stats'),
-            fetch('http://localhost:8080/api/import/latest')
+            fetch('/api/customers/stats'),
+            fetch('/api/import/latest')
         ]);
 
         const statsResult = await statsResponse.json();
         const errorResult = await errorResponse.json();
 
-        // 5. Suntikkan Data ke Dasbor Utama
         if (statsResult.success) {
             document.getElementById('totalPelangganAktif').textContent = statsResult.total_active;
             
-            // Render Sebaran Kota dengan Tata Letak yang Lebih Dalam dan Rapi
             const activityContainer = document.getElementById('recentActivityContainer');
             if (statsResult.city_distribution && statsResult.city_distribution.length > 0) {
                 activityContainer.innerHTML = ''; 
@@ -90,7 +84,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         document.getElementById('apiWaitBadge').style.color = '#991b1b';
     }
 
-    // 6. Fungsionalitas Tombol Logout
     const logoutBtn = document.getElementById('logoutBtn');
     if (logoutBtn) {
         logoutBtn.addEventListener('click', () => {
@@ -100,6 +93,5 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 });
 
-// Tanggal hari ini (hanya tampilan)
 document.getElementById('todayDate').textContent =
 new Date().toLocaleDateString('id-ID',{weekday:'long',day:'numeric',month:'long',year:'numeric'});

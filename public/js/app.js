@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             try {
                 // Panggil API Backend Node.js
-                const response = await fetch('http://localhost:8080/api/auth/login', {
+                const response = await fetch('/api/auth/login', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ email, password })
