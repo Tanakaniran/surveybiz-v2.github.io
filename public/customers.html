@@ -1,0 +1,65 @@
+<!-- public/customers.html -->
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Master Pelanggan - SurveyBiz</title>
+    <link rel="stylesheet" href="./css/custom.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <div class="sb-layout">
+        <!-- Sidebar (Sama seperti dashboard.html) -->
+        <aside class="sb-sidebar">
+            <div class="sb-brand"><h2>SurveyBiz</h2></div>
+            <nav class="sb-nav">
+                <a href="dashboard.html" class="sb-nav-item">Ringkasan Dasbor</a>
+                <a href="customers.html" class="sb-nav-item active">Master Pelanggan</a>
+                <a href="import.html" id="menu-import" class="sb-nav-item">Import Dataset</a>
+                <a href="monitoring.html" id="menu-monitoring" class="sb-nav-item">Validasi & Kualitas</a>
+            </nav>
+            <div class="sb-sidebar-footer">
+                <button id="logoutBtn" class="sb-logout-btn">Keluar Sistem</button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="sb-main">
+            <header class="sb-header flex justify-between items-center px-8 py-4 bg-white border-b">
+                <h1 class="text-xl font-bold">Master Data Pelanggan</h1>
+                <div class="flex gap-4">
+                    <!-- Tombol ini akan disembunyikan untuk Manager via JS -->
+                    <button id="addCustomerBtn" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                        + Tambah Pelanggan
+                    </button>
+                </div>
+            </header>
+
+            <div class="sb-content p-8 bg-slate-50 flex-1 overflow-auto">
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                    <div class="p-4 border-b border-slate-200 flex justify-between items-center bg-slate-50">
+                        <input type="text" id="searchInput" placeholder="Cari nama atau ID..." class="px-4 py-2 border rounded-lg w-64 text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
+                        <span class="text-sm text-slate-500">Menampilkan <span id="totalData">0</span> data aktif</span>
+                    </div>
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-100 text-slate-600 text-xs uppercase tracking-wider">
+                                <th class="p-4 border-b font-semibold">ID Pelanggan</th>
+                                <th class="p-4 border-b font-semibold">Nama Lengkap</th>
+                                <th class="p-4 border-b font-semibold">Kontak</th>
+                                <th class="p-4 border-b font-semibold">Kota</th>
+                                <th class="p-4 border-b font-semibold">Status</th>
+                                <th class="p-4 border-b font-semibold text-right">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="customerTableBody" class="text-sm divide-y divide-slate-100">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="./js/customers.js"></script>
+</body>
+</html>

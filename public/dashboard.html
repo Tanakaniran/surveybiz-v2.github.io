@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dasbor - SurveyBiz</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./css/custom.css">
+</head>
+<body>
+    <div class="sb-layout">
+        <input type="checkbox" id="sbToggle" class="sb-toggle" aria-hidden="true" tabindex="-1">
+
+        <!-- Sidebar -->
+        <aside class="sb-sidebar">
+            <div class="sb-brand">
+                <span class="sb-brand-mark" aria-hidden="true">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>
+                </span>
+                <h2>SurveyBiz</h2>
+            </div>
+
+            <nav class="sb-nav" aria-label="Navigasi utama">
+                <a href="dashboard.html" class="sb-nav-item active" aria-current="page">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>
+                    Ringkasan Dasbor
+                </a>
+                <a href="customers.html" id="menu-customers" class="sb-nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8M18 14.3c2.2.7 3.5 2.6 3.5 5.7"/></svg>
+                    Master Pelanggan
+                </a>
+                <a href="import.html" id="menu-import" class="sb-nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5"/><path d="M4 19h16"/></svg>
+                    Import Dataset
+                </a>
+                <a href="monitoring.html" id="menu-monitoring" class="sb-nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 4.5-3.2 8-8 9-4.8-1-8-4.5-8-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg>
+                    Validasi &amp; Kualitas
+                </a>
+            </nav>
+
+            <div class="sb-sidebar-footer">
+                <button id="logoutBtn" class="sb-logout-btn" type="button">Keluar Sistem</button>
+            </div>
+        </aside>
+
+        <!-- Latar gelap saat menu mobile terbuka -->
+        <label for="sbToggle" class="sb-overlay" aria-hidden="true"></label>
+
+        <!-- Konten Utama -->
+        <main class="sb-main">
+            <header class="sb-header">
+                <div class="sb-header-left">
+                    <label for="sbToggle" class="sb-menu-btn" aria-label="Buka menu">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+                    </label>
+                    <h1>Ringkasan Dasbor</h1>
+                </div>
+
+                <div class="sb-profile">
+                    <div class="sb-profile-text">
+                        <span id="userName" class="sb-profile-name">Memuat...</span>
+                        <span id="userRole" class="sb-profile-role">Mengecek...</span>
+                    </div>
+                    <div class="sb-avatar">
+                        <span id="userInitials">--</span>
+                    </div>
+                </div>
+            </header>
+
+            <div class="sb-content">
+                <div class="sb-intro">
+                    <div>
+                        <h2>Selamat datang kembali</h2>
+                        <p>Pantau jumlah pelanggan dan kualitas data survei Anda di satu tempat.</p>
+                    </div>
+                    <span class="sb-date" id="todayDate"></span>
+                </div>
+
+                <section class="sb-stat-grid" aria-label="Statistik utama">
+                    <div class="sb-stat-card">
+                        <span class="sb-stat-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8M18 14.3c2.2.7 3.5 2.6 3.5 5.7"/></svg>
+                        </span>
+                        <h3 class="sb-stat-title">Total Pelanggan Aktif</h3>
+                        <p class="sb-stat-value" id="totalPelangganAktif">--</p>
+                        <p class="sb-stat-note">Dari Master Pelanggan</p>
+                    </div>
+                    <div class="sb-stat-card">
+                        <span class="sb-stat-icon danger" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 2 20h20L12 3z"/><path d="M12 10v4M12 17.5v.01"/></svg>
+                        </span>
+                        <h3 class="sb-stat-title">Data Bermasalah</h3>
+                        <p class="sb-stat-value danger" id="totalDataBermasalah">--</p>
+                        <p class="sb-stat-note">Perlu diperbaiki sebelum dianalisis</p>
+                    </div>
+                    <div class="sb-stat-card">
+                        <span class="sb-stat-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+                        </span>
+                        <h3 class="sb-stat-title">Status Sesi Anda</h3>
+                        <p class="sb-stat-value brand"><span class="sb-live" aria-hidden="true"></span><span id="sessionTime">Aman</span></p>
+                        <p class="sb-stat-note">Anda masuk dengan akun terverifikasi</p>
+                    </div>
+                </section>
+
+                <div class="sb-grid">
+                    <section class="sb-panel">
+                        <div class="sb-panel-head">
+                            <h3>Data yang perlu diperiksa</h3>
+                            <span id="apiWaitBadge" class="sb-badge warn">Menunggu modul API</span>
+                        </div>
+                        <div class="sb-table-wrap">
+                            <table class="sb-table">
+                                <thead>
+                                    <tr><th>Pelanggan / Baris</th><th>Masalah</th><th>Jenis Error</th></tr>
+                                </thead>
+                                <tbody id="issueTableBody"></tbody>
+                            </table>
+                        </div>
+                        <div class="sb-empty" id="emptyStateMessage">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>
+                            <h4>Belum ada data untuk ditampilkan</h4>
+                            <p>Tabel ini akan terisi otomatis setelah modul Backend API CRUD (UC-02) terintegrasi.</p>
+                        </div>
+                    </section>
+
+                    <section class="sb-panel">
+                        <div class="sb-panel-head">
+                            <h3>Sebaran Kota (Aktivitas)</h3>
+                            <span class="sb-badge ok">Terhubung</span>
+                        </div>
+                        <div id="recentActivityContainer">
+                            <div class="sb-skeleton" aria-hidden="true">
+                                <span></span><span></span><span></span>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="./js/dashboard.js"></script>
+</body>
+</html>

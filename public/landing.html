@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SurveyBiz - Sistem Manajemen Kualitas Data</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script>
+tailwind.config = { theme: { extend: {
+  fontFamily: { display: ['"Bricolage Grotesque"','sans-serif'], sans: ['"DM Sans"','sans-serif'], mono: ['"JetBrains Mono"','monospace'] },
+  colors: { ink:'#1E1B4B', leaf:'#5B5BF0', mint:'#E4E4FF', paper:'#F7F6FF', warn:'#F59E0B', bad:'#F43F5E' }
+}}}
+</script>
+<style>
+  body{font-family:'DM Sans',sans-serif;background:#F7F6FF;color:#1E1B4B}
+  .grid-bg{background-image:linear-gradient(rgba(30,27,75,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(30,27,75,.05) 1px,transparent 1px);background-size:44px 44px;
+    -webkit-mask-image:radial-gradient(ellipse at 50% 30%,#000 30%,transparent 75%);mask-image:radial-gradient(ellipse at 50% 30%,#000 30%,transparent 75%)}
+  /* baris tabel demo */
+  .row{display:grid;grid-template-columns:1.1fr 1.5fr .9fr 1.2fr;gap:.75rem;align-items:center;padding:.65rem 1rem;border-top:1px solid #E8E6FA;font-family:'JetBrains Mono',monospace;font-size:12px;transition:background .5s,color .5s}
+  .row.err{background:#FFF4F4}
+  .row.dup{background:#FFF8E8}
+  .row.ok{background:#EAF1FF}
+  .badge{justify-self:start;padding:2px 8px;border-radius:999px;font-size:11px;font-weight:500;transition:all .4s}
+  .badge.err{background:#FDE0E1;color:#B4232A}
+  .badge.dup{background:#FDEFC9;color:#8A5A00}
+  .badge.ok{background:#D5E3FF;color:#1E40AF}
+  @keyframes float{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-28px) scale(1.06)}}
+  @keyframes shift{0%{background-position:0% 50%}100%{background-position:200% 50%}}
+  .float{animation:float 9s ease-in-out infinite}
+  .float.d2{animation-duration:12s;animation-delay:-4s}
+  .grad-text{background:linear-gradient(90deg,#5B5BF0,#EC4899,#F59E0B,#5B5BF0);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shift 6s linear infinite}
+  .cta-grad{background:linear-gradient(110deg,#5B5BF0,#8B5CF6,#EC4899,#5B5BF0);background-size:200% 100%;animation:shift 8s linear infinite}
+  .reveal{opacity:0;transform:translateY(16px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.in{opacity:1;transform:none}
+  .tab[aria-selected="true"]{background:#1E1B4B;color:#fff}
+  :focus-visible{outline:2px solid #5B5BF0;outline-offset:3px}
+  @media (prefers-reduced-motion:reduce){.float,.grad-text,.cta-grad{animation:none}.reveal{opacity:1;transform:none;transition:none}*{scroll-behavior:auto!important}}
+</style>
+</head>
+<body class="antialiased selection:bg-mint">
+
+<!-- Navigasi -->
+<header class="fixed top-4 inset-x-0 z-50 px-4">
+  <nav class="max-w-5xl mx-auto flex items-center justify-between h-14 pl-5 pr-2 rounded-full bg-white/80 backdrop-blur-xl border border-ink/10 shadow-[0_8px_30px_rgba(30,27,75,.08)]">
+    <a href="#" class="flex items-center gap-2" onclick="event.preventDefault();window.scrollTo({top:0,behavior:'smooth'})">
+      <span class="grid place-items-center w-8 h-8 rounded-lg bg-ink text-mint">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>
+      </span>
+      <span class="font-display font-extrabold text-xl tracking-tight">SurveyBiz</span>
+    </a>
+    <div class="hidden md:flex items-center gap-1 text-sm font-medium text-ink/60">
+      <a href="#fitur" class="px-4 py-2 rounded-full hover:bg-ink/5 hover:text-ink transition-colors">Fitur</a>
+      <a href="#cara-kerja" class="px-4 py-2 rounded-full hover:bg-ink/5 hover:text-ink transition-colors">Cara Kerja</a>
+      <a href="#tentang" class="px-4 py-2 rounded-full hover:bg-ink/5 hover:text-ink transition-colors">Tentang Kami</a>
+    </div>
+    <div class="flex items-center gap-1">
+      <a href="index.html" class="hidden sm:inline px-4 py-2 text-sm font-medium text-ink/70 hover:text-ink">Masuk</a>
+      <a href="index.html" class="px-5 py-2.5 rounded-full bg-ink text-white text-sm font-medium hover:bg-leaf transition-colors">Portal Pegawai</a>
+    </div>
+  </nav>
+</header>
+
+<!-- Hero -->
+<section class="relative overflow-hidden pt-36 pb-24 lg:pt-44">
+  <div class="grid-bg absolute inset-0"></div>
+  <div class="float absolute -top-24 -left-24 w-[420px] h-[420px] rounded-full bg-mint blur-3xl opacity-90"></div>
+  <div class="float d2 absolute top-40 -right-20 w-[360px] h-[360px] rounded-full bg-pink-200 blur-3xl opacity-70"></div>
+  <div class="float absolute bottom-0 left-1/3 w-[260px] h-[260px] rounded-full bg-amber-200 blur-3xl opacity-60"></div>
+  <div class="relative max-w-6xl mx-auto px-5 grid lg:grid-cols-[1.05fr_1fr] gap-14 items-center">
+    <div>
+      <p class="inline-flex items-center gap-2 text-sm font-medium bg-white border border-ink/10 rounded-full pl-2 pr-4 py-1.5 mb-7">
+        <span class="w-2 h-2 rounded-full bg-pink-500 animate-pulse"></span> Sistem internal kualitas data pelanggan
+      </p>
+      <h1 class="font-display font-extrabold text-5xl md:text-6xl xl:text-7xl leading-[1.02] tracking-[-0.03em]">
+        Data berantakan masuk. Keputusan <span class="relative whitespace-nowrap"><span class="grad-text">yang tepat</span><svg class="absolute -bottom-2 left-0 w-full text-pink-400" viewBox="0 0 200 10" preserveAspectRatio="none" fill="none"><path d="M2 7c40-6 100-6 196-1" stroke="currentColor" stroke-width="4" stroke-linecap="round"/></svg></span> keluar.
+      </h1>
+      <p class="mt-8 text-lg text-ink/65 max-w-xl leading-relaxed">
+        SurveyBiz memeriksa data berskala besar pada setiap entri pelanggan sebelum masuk ke master data: format salah, kolom kosong, dan duplikat email atau ID langsung ditandai.
+      </p>
+      <div class="mt-10 flex flex-wrap gap-3">
+        <a href="index.html" class="group inline-flex items-center gap-2 px-7 py-4 rounded-full cta-grad text-white font-bold shadow-[0_10px_30px_rgba(91,91,240,.4)] hover:-translate-y-0.5 transition-all">
+          Masuk ke Sistem
+          <svg class="transition-transform group-hover:translate-x-1" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <a href="#cara-kerja" class="px-7 py-4 rounded-full border border-ink/15 bg-white font-medium hover:border-ink transition-colors">Lihat peran pengguna</a>
+      </div>
+    </div>
+
+    <!-- Demo validasi langsung -->
+    <div class="relative">
+      <div class="absolute -inset-3 rounded-[28px] bg-gradient-to-br from-leaf/40 via-pink-300/30 to-amber-200/40 blur-2xl"></div>
+      <div class="relative bg-white rounded-2xl border border-ink/10 shadow-2xl overflow-hidden" aria-label="Contoh validasi data">
+        <div class="flex items-center justify-between px-4 py-3 bg-paper border-b border-ink/10">
+          <div class="flex gap-1.5"><i class="w-2.5 h-2.5 rounded-full bg-bad/70"></i><i class="w-2.5 h-2.5 rounded-full bg-warn/70"></i><i class="w-2.5 h-2.5 rounded-full bg-leaf/70"></i></div>
+          <span class="font-mono text-xs text-ink/50">pelanggan_q3.xlsx</span>
+          <span id="score" class="font-mono text-xs font-medium text-leaf">0% bersih</span>
+        </div>
+        <div class="row text-ink/40 !py-2 !border-t-0 text-[11px]"><span>ID</span><span>Email</span><span>Wilayah</span><span>Status</span></div>
+        <div id="demo"></div>
+        <div class="px-4 py-3 bg-paper border-t border-ink/10 flex items-center justify-between text-xs text-ink/60">
+          <span id="log" class="font-mono">Memindai 6 baris...</span>
+          <button id="replay" class="font-medium text-leaf hover:underline">Ulangi</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Angka ringkas -->
+  <div class="relative max-w-6xl mx-auto px-5 mt-20">
+    <dl class="grid grid-cols-2 md:grid-cols-4 gap-px bg-ink/10 rounded-2xl overflow-hidden border border-ink/10">
+      <div class="bg-white p-6"><dt class="text-sm text-ink/55">Format file</dt><dd class="font-display font-bold text-3xl mt-1">CSV &amp; XLSX</dd></div>
+      <div class="bg-white p-6"><dt class="text-sm text-ink/55">Pemeriksaan</dt><dd class="font-display font-bold text-3xl mt-1">Format, kosong, duplikat</dd></div>
+      <div class="bg-white p-6"><dt class="text-sm text-ink/55">Peran akses</dt><dd class="font-display font-bold text-3xl mt-1">3 peran (RBAC)</dd></div>
+      <div class="bg-white p-6"><dt class="text-sm text-ink/55">Diproses di</dt><dd class="font-display font-bold text-3xl mt-1">Peramban Anda</dd></div>
+    </dl>
+  </div>
+</section>
+
+<!-- Fitur -->
+<section id="fitur" class="py-24">
+  <div class="max-w-6xl mx-auto px-5">
+    <div class="max-w-2xl mb-14 reveal">
+      <h2 class="font-display font-extrabold text-4xl md:text-5xl tracking-tight leading-tight">Pembersihan data massal, tanpa kerja ulang.</h2>
+      <p class="mt-4 text-lg text-ink/60">Dari unggah sampai laporan, setiap langkah dirancang agar data kotor tidak sampai ke master data.</p>
+    </div>
+    <div class="grid md:grid-cols-6 gap-5">
+      <article class="reveal md:col-span-4 bg-ink text-white rounded-3xl p-8 md:p-10 relative overflow-hidden min-h-[280px]">
+        <div class="float absolute -right-10 -bottom-10 w-64 h-64 rounded-full bg-pink-500/40 blur-3xl"></div>
+        <div class="float d2 absolute right-24 -bottom-16 w-48 h-48 rounded-full bg-leaf/50 blur-3xl"></div>
+        <div class="w-12 h-12 rounded-xl bg-white/10 grid place-items-center mb-8">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#A5B4FC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        </div>
+        <h3 class="font-display font-bold text-3xl mb-3">Impor Data Instan</h3>
+        <p class="text-white/70 max-w-md leading-relaxed">Unggah dataset CSV atau XLSX. Ribuan baris diproses langsung di peramban Anda, tanpa menunggu server.</p>
+      </article>
+      <article class="reveal md:col-span-2 bg-amber-100 rounded-3xl p-8">
+        <div class="w-12 h-12 rounded-xl bg-white grid place-items-center mb-8 text-amber-600">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+        </div>
+        <h3 class="font-display font-bold text-2xl mb-3">Validasi Cerdas</h3>
+        <p class="text-ink/70 leading-relaxed">Format salah, data kosong, dan duplikat email atau ID terdeteksi sebelum menyentuh master data.</p>
+      </article>
+      <article class="reveal md:col-span-2 bg-white border border-ink/10 rounded-3xl p-8">
+        <div class="w-12 h-12 rounded-xl bg-paper grid place-items-center mb-8 text-ink">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-6"/></svg>
+        </div>
+        <h3 class="font-display font-bold text-2xl mb-3">Laporan Analitik</h3>
+        <p class="text-ink/65 leading-relaxed">Ubah data bersih menjadi grafik yang siap dibaca pimpinan dalam hitungan detik.</p>
+      </article>
+      <article class="reveal md:col-span-4 bg-white border border-ink/10 rounded-3xl p-8 md:p-10 flex flex-col justify-between gap-8">
+        <div>
+          <h3 class="font-display font-bold text-2xl mb-2">Dasbor Manajer</h3>
+          <p class="text-ink/65 max-w-md">Total pelanggan aktif dan sebaran wilayah, dalam satu layar.</p>
+        </div>
+        <!-- Ganti dengan ./img/dashboard.png bila ada -->
+        <div class="flex items-end gap-2 h-24" aria-hidden="true">
+          <i class="flex-1 rounded-t bg-mint h-[35%]"></i><i class="flex-1 rounded-t bg-mint h-[55%]"></i><i class="flex-1 rounded-t bg-leaf/50 h-[45%]"></i><i class="flex-1 rounded-t bg-leaf/70 h-[70%]"></i><i class="flex-1 rounded-t bg-leaf h-[85%]"></i><i class="flex-1 rounded-t bg-ink h-full"></i><i class="flex-1 rounded-t bg-leaf/60 h-[60%]"></i>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- Peran -->
+<section id="cara-kerja" class="py-24 bg-white border-y border-ink/10">
+  <div class="max-w-6xl mx-auto px-5">
+    <div class="max-w-2xl mb-12 reveal">
+      <h2 class="font-display font-extrabold text-4xl md:text-5xl tracking-tight leading-tight">Satu sistem, tiga peran.</h2>
+      <p class="mt-4 text-lg text-ink/60">Akses dipisahkan dengan ketat (RBAC). Setiap pengguna hanya melihat yang menjadi tanggung jawabnya.</p>
+    </div>
+
+    <div class="reveal">
+      <div role="tablist" class="inline-flex p-1 rounded-full bg-paper border border-ink/10 mb-8">
+        <button role="tab" aria-selected="true" data-r="admin" class="tab px-5 py-2.5 rounded-full text-sm font-medium transition-colors">Data Administrator</button>
+        <button role="tab" aria-selected="false" data-r="analyst" class="tab px-5 py-2.5 rounded-full text-sm font-medium transition-colors">Data Analyst</button>
+        <button role="tab" aria-selected="false" data-r="manager" class="tab px-5 py-2.5 rounded-full text-sm font-medium transition-colors">Ops. Manager</button>
+      </div>
+
+      <div role="tabpanel" class="grid lg:grid-cols-2 gap-6 items-stretch">
+        <div class="rounded-3xl p-8 md:p-10 transition-colors duration-500" id="rolecard">
+          <code id="rolecode" class="font-mono text-sm font-medium"></code>
+          <h3 id="roletitle" class="font-display font-extrabold text-4xl mt-3 mb-4"></h3>
+          <p id="roledesc" class="text-lg leading-relaxed opacity-80"></p>
+          <a id="rolelink" href="index.html" class="inline-flex items-center gap-2 mt-8 px-6 py-3 rounded-full font-bold bg-white text-ink hover:scale-105 transition-transform"></a>
+        </div>
+        <ul id="rolecaps" class="rounded-3xl border border-ink/10 bg-paper divide-y divide-ink/10 overflow-hidden"></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Tentang -->
+<section id="tentang" class="bg-ink text-white py-24 relative overflow-hidden">
+  <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[400px] bg-leaf/20 rounded-full blur-3xl pointer-events-none"></div>
+  <div class="relative max-w-6xl mx-auto px-5">
+    <div class="max-w-2xl mb-14 reveal">
+      <h2 class="font-display font-extrabold text-4xl md:text-5xl tracking-tight leading-tight">Butuh bantuan teknis atau akses peran?</h2>
+      <p class="mt-4 text-lg text-white/60">Sistem ini dikelola oleh Divisi Data &amp; TI Internal. Hubungi tim kami lewat salah satu saluran berikut.</p>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-5 mb-14">
+      <div class="reveal rounded-2xl p-7 bg-white/5 border border-white/10 hover:bg-white/10 transition-colors">
+        <h3 class="font-display font-bold text-xl mb-2">Lokasi Pusat Data</h3>
+        <p class="text-white/65 text-sm leading-relaxed">Gedung Pusat Operasional TI, Lt. 4<br>Denpasar, Bali, Indonesia 80234</p>
+        <p class="font-mono text-xs text-[#A5B4FC] mt-4">-8.6705° S, 115.2126° E</p>
+      </div>
+      <div class="reveal rounded-2xl p-7 bg-white/5 border border-white/10 hover:bg-white/10 transition-colors">
+        <h3 class="font-display font-bold text-xl mb-2">Hotline</h3>
+        <p class="text-white/65 text-sm leading-relaxed">Layanan bantuan internal kantor<br>Ext. 404 / Direct: +62 361 8900-SURVEY</p>
+        <p class="font-mono text-xs text-[#A5B4FC] mt-4">Senin - Jumat, 08:00 - 17:00 WITA</p>
+      </div>
+      <div class="reveal rounded-2xl p-7 bg-white/5 border border-white/10 hover:bg-white/10 transition-colors">
+        <h3 class="font-display font-bold text-xl mb-2">Surel Dukungan Data</h3>
+        <p class="text-white/65 text-sm leading-relaxed">Tinjauan keamanan dan laporan bug<br><a href="mailto:support-data@surveybiz.internal" class="font-mono text-white hover:text-[#A5B4FC]">support-data@surveybiz.internal</a></p>
+        <p class="font-mono text-xs text-[#A5B4FC] mt-4">Respons maksimal 1x24 jam</p>
+      </div>
+    </div>
+
+    <div class="reveal rounded-3xl cta-grad p-8 md:p-12 flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+      <div>
+        <h3 class="font-display font-extrabold text-3xl md:text-4xl text-white mb-2">Siap mengolah data?</h3>
+        <p class="text-white/85">Masuk dengan akun terverifikasi Anda.</p>
+      </div>
+      <a href="index.html" class="px-8 py-4 rounded-full bg-ink text-white font-bold hover:scale-105 transition-transform whitespace-nowrap">Masuk Portal Aplikasi</a>
+    </div>
+  </div>
+</section>
+
+<footer class="bg-[#12103A] py-8 text-xs text-white/45">
+  <div class="max-w-6xl mx-auto px-5 flex flex-col md:flex-row justify-between items-center gap-3">
+    <span class="flex items-center gap-2 text-white/80 font-bold"><i class="w-2 h-2 rounded-full bg-leaf"></i>SurveyBiz Enterprise Platform &copy; 2026. Hak Cipta Dilindungi Undang-Undang.</span>
+    <span class="font-mono">v2.4.0-Stable &middot; PostgreSQL / Fastify</span>
+  </div>
+</footer>
+
+<script>
+/* Smooth scroll dengan offset header */
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  if(a.getAttribute('href')==='#') return;
+  a.addEventListener('click',e=>{
+    e.preventDefault();
+    const t=document.querySelector(a.getAttribute('href'));
+    if(t) window.scrollTo({top:t.getBoundingClientRect().top+window.pageYOffset-90,behavior:'smooth'});
+  });
+});
+
+/* Reveal saat scroll */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.15});
+document.querySelectorAll('.reveal').forEach((el,i)=>{el.style.transitionDelay=(i%3)*80+'ms';io.observe(el)});
+
+/* Demo validasi di hero */
+const data=[
+  {id:'C-1041',email:'rina@mail.co.id',area:'Denpasar',s:'ok'},
+  {id:'C-1042',email:'budi@@mail',area:'Badung',s:'err',msg:'Format email salah',fix:'budi@mail.com'},
+  {id:'C-1043',email:'',area:'Gianyar',s:'err',msg:'Email kosong',fix:'wayan@mail.com'},
+  {id:'C-1044',email:'rina@mail.co.id',area:'Denpasar',s:'dup',msg:'Duplikat email',fix:'(diarsipkan)'},
+  {id:'C-1045',email:'komang@mail.com',area:'Tabanan',s:'ok'},
+  {id:'C-1046',email:'ayu@mail.com',area:'Ubud',s:'ok'}
+];
+const demo=document.getElementById('demo'),log=document.getElementById('log'),score=document.getElementById('score');
+let timers=[];
+const wait=(fn,ms)=>timers.push(setTimeout(fn,ms));
+function render(){
+  demo.innerHTML=data.map((d,i)=>`<div class="row" id="r${i}"><span>${d.id}</span><span class="truncate">${d.email||'<i class="text-ink/30">kosong</i>'}</span><span>${d.area}</span><span class="badge" id="b${i}" style="background:#F0EFFA;color:#6B6A8F">menunggu</span></div>`).join('');
+}
+function setScore(n){score.textContent=n+'% bersih'}
+function run(){
+  timers.forEach(clearTimeout);timers=[];render();setScore(0);log.textContent='Memindai 6 baris...';
+  let clean=0;
+  data.forEach((d,i)=>wait(()=>{
+    const r=document.getElementById('r'+i),b=document.getElementById('b'+i);
+    r.classList.add(d.s);b.className='badge '+d.s;b.textContent=d.s==='ok'?'valid':d.msg;
+    if(d.s==='ok'){clean++;setScore(Math.round(clean/6*100))}
+  },700+i*450));
+  wait(()=>{log.textContent='3 baris perlu perbaikan';},700+6*450);
+  data.forEach((d,i)=>{ if(d.s==='ok')return; wait(()=>{
+    const r=document.getElementById('r'+i),b=document.getElementById('b'+i);
+    r.classList.remove(d.s);r.classList.add('ok');b.className='badge ok';b.textContent='diperbaiki';
+    r.children[1].textContent=d.fix;clean++;setScore(Math.round(clean/6*100));
+    if(clean===6) log.textContent='Semua baris siap masuk master data';
+  },4400+i*500)});
+}
+document.getElementById('replay').addEventListener('click',run);
+run();
+
+/* Tab peran */
+const roles={
+  admin:{code:'ROLE_ADMIN',title:'Data Administrator',desc:'Operator lapangan yang mengunggah dataset Excel, menambah data pelanggan secara manual, dan mengarsipkan data yang tidak relevan.',link:'Login Admin',bg:'#5B5BF0',fg:'#fff',caps:['Unggah dataset CSV/XLSX','Tambah data pelanggan manual','Arsipkan data ke tong sampah','Tidak mengakses dasbor eksekutif']},
+  analyst:{code:'ROLE_ANALYST',title:'Data Analyst',desc:'Tim verifikator yang memantau kualitas data impor. Mereka melihat baris yang error dan meminta perbaikannya.',link:'Login Analyst',bg:'#1E1B4B',fg:'#fff',caps:['Lihat baris error dan duplikat','Minta perbaikan data ke Admin','Pantau kualitas tiap impor','Tidak menghapus data']},
+  manager:{code:'ROLE_MANAGER',title:'Ops. Manager',desc:'Pimpinan operasional yang tidak berurusan dengan data mentah dan hanya berfokus pada dasbor visualisasi.',link:'Login Manager',bg:'#FFD9E4',fg:'#1E1B4B',caps:['Total pelanggan aktif','Sebaran wilayah','Ringkasan kualitas data','Tidak melihat data mentah']}
+};
+const tabs=document.querySelectorAll('.tab');
+function showRole(k){
+  const r=roles[k],c=document.getElementById('rolecard');
+  c.style.background=r.bg;c.style.color=r.fg;
+  document.getElementById('rolecode').textContent=r.code;
+  document.getElementById('roletitle').textContent=r.title;
+  document.getElementById('roledesc').textContent=r.desc;
+  document.getElementById('rolelink').textContent=r.link;
+  document.getElementById('rolecaps').innerHTML=r.caps.map((t,i)=>{
+    const no=t.startsWith('Tidak');
+    return `<li class="flex items-center gap-3 px-6 py-4"><span class="grid place-items-center w-6 h-6 rounded-full text-xs font-bold ${no?'bg-bad/10 text-bad':'bg-mint text-leaf'}">${no?'&times;':'&check;'}</span><span class="${no?'text-ink/50':''}">${t}</span></li>`}).join('');
+  tabs.forEach(t=>t.setAttribute('aria-selected',t.dataset.r===k));
+}
+tabs.forEach(t=>t.addEventListener('click',()=>showRole(t.dataset.r)));
+showRole('admin');
+</script>
+</body>
+</html>

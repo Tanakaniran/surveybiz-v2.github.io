@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Import Dataset - SurveyBiz</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./css/custom.css">
+    <link rel="stylesheet" href="./css/import.css">
+</head>
+<body>
+    <div class="sb-layout">
+        <input type="checkbox" id="sbToggle" class="sb-toggle" aria-hidden="true" tabindex="-1">
+
+        <!-- Sidebar -->
+        <aside class="sb-sidebar">
+            <div class="sb-brand">
+                <span class="sb-brand-mark" aria-hidden="true">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>
+                </span>
+                <h2>SurveyBiz</h2>
+            </div>
+            <nav class="sb-nav" aria-label="Navigasi utama">
+                <a href="dashboard.html" class="sb-nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>
+                    Ringkasan Dasbor
+                </a>
+                <a href="customers.html" id="menu-customers" class="sb-nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8M18 14.3c2.2.7 3.5 2.6 3.5 5.7"/></svg>
+                    Master Pelanggan
+                </a>
+                <a href="import.html" id="menu-import" class="sb-nav-item active" aria-current="page">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5"/><path d="M4 19h16"/></svg>
+                    Import Dataset
+                </a>
+                <a href="monitoring.html" id="menu-monitoring" class="sb-nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 4.5-3.2 8-8 9-4.8-1-8-4.5-8-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg>
+                    Validasi &amp; Kualitas
+                </a>
+            </nav>
+            <div class="sb-sidebar-footer">
+                <button id="logoutBtn" class="sb-logout-btn" type="button">Keluar Sistem</button>
+            </div>
+        </aside>
+
+        <label for="sbToggle" class="sb-overlay" aria-hidden="true"></label>
+
+        <!-- Konten Utama -->
+        <main class="sb-main">
+            <header class="sb-header">
+                <div class="sb-header-left">
+                    <label for="sbToggle" class="sb-menu-btn" aria-label="Buka menu">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+                    </label>
+                    <h1>Import Dataset</h1>
+                </div>
+            </header>
+
+            <div class="sb-content">
+                <div class="imp-wrap">
+                    <!-- Alur proses -->
+                    <ol class="imp-steps" style="list-style:none;padding:0" aria-label="Alur import">
+                        <li class="imp-step on"><b>1</b> Pilih berkas</li>
+                        <li class="imp-line" aria-hidden="true"></li>
+                        <li class="imp-step"><b>2</b> Validasi data</li>
+                        <li class="imp-line" aria-hidden="true"></li>
+                        <li class="imp-step"><b>3</b> Tinjau hasil</li>
+                    </ol>
+
+                    <section class="imp-card">
+                        <div class="imp-head">
+                            <h2>Unggah Dataset Pelanggan</h2>
+                            <p>Pilih berkas CSV. Data diperiksa dulu sebelum masuk ke Master Pelanggan.</p>
+                        </div>
+
+                        <div class="imp-cols">
+                            <span class="imp-cols-label">Kolom yang wajib ada</span>
+                            <span class="imp-chip">customer_id</span>
+                            <span class="imp-chip">name</span>
+                            <span class="imp-chip">email</span>
+                            <span class="imp-chip">phone</span>
+                            <span class="imp-chip">city</span>
+                            <span class="imp-chip">age</span>
+                            <span class="imp-chip">registration_date</span>
+                        </div>
+
+                        <!-- Area Drag & Drop -->
+                        <div id="dropzone" tabindex="0" role="button" aria-label="Pilih atau seret berkas CSV">
+                            <span class="imp-drop-icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg>
+                            </span>
+                            <p class="imp-drop-title">Seret berkas ke sini, atau <span>cari di komputer</span></p>
+                            <p class="imp-drop-sub">Format .csv</p>
+                            <input type="file" id="fileInput" accept=".csv" class="hidden">
+                        </div>
+
+                        <!-- Indikator Berkas -->
+                        <div id="fileInfo" class="hidden">
+                            <div class="imp-file">
+                                <span class="imp-file-icon" aria-hidden="true">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg>
+                                </span>
+                                <div style="min-width:0">
+                                    <p id="fileName">dataset_pelanggan.csv</p>
+                                    <p id="fileSize">245 KB</p>
+                                </div>
+                            </div>
+                            <button id="removeFileBtn" type="button">Batal</button>
+                        </div>
+
+                        <button id="uploadBtn" type="button" disabled>Mulai Proses Validasi</button>
+                    </section>
+
+                    <div class="imp-notes">
+                        <div class="imp-note">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+                            <div><b>Dicek otomatis</b>Format salah, data kosong, dan duplikat ditandai.</div>
+                        </div>
+                        <div class="imp-note">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+                            <div><b>Diproses di peramban</b>Ribuan baris dibaca langsung di komputer Anda.</div>
+                        </div>
+                        <div class="imp-note">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+                            <div><b>Hasil langsung</b>Baris bermasalah muncul di halaman Validasi &amp; Kualitas.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <script src="js/import.js"></script>
+</body>
+</html>

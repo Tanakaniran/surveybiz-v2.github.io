@@ -1,0 +1,24 @@
+{
+  "name": "surveybiz_v2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@fastify/cors": "^11.3.0",
+    "@fastify/multipart": "^10.1.2",
+    "bcrypt": "^6.0.0",
+    "csv-parser": "^3.2.1",
+    "dotenv": "^18.0.3",
+    "fastify": "^5.12.5",
+    "jsonwebtoken": "^9.0.3",
+    "pg": "^8.23.0",
+    "xlsx": "^0.18.5"
+  }
+}

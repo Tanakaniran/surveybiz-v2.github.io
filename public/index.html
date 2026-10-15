@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Masuk - SurveyBiz</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<script>
+tailwind.config = { theme: { extend: {
+  fontFamily: { display: ['"Bricolage Grotesque"','sans-serif'], sans: ['"DM Sans"','sans-serif'] },
+  colors: { ink:'#1E1B4B', brand:'#4F46E5' }
+}}}
+</script>
+<style>
+  .grid-bg{background-image:linear-gradient(rgba(255,255,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.06) 1px,transparent 1px);background-size:48px 48px}
+  .enter{animation:enter .7s ease-out both}
+  @keyframes enter{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion:reduce){.enter{animation:none}}
+  input:-webkit-autofill{-webkit-box-shadow:0 0 0 40px #fff inset}
+</style>
+</head>
+<body class="bg-white font-sans text-slate-800 antialiased min-h-screen">
+<div class="flex min-h-screen">
+
+  <!-- Kolom Kiri: Form -->
+  <main class="w-full lg:w-[46%] flex flex-col px-6 sm:px-12 xl:px-24 py-8">
+    <div class="flex items-center justify-between">
+      <a href="landing.html" class="inline-flex items-center gap-2 text-sm font-medium text-slate-500 hover:text-ink transition-colors">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+        Kembali ke Beranda
+      </a>
+      <span class="hidden sm:inline text-xs text-slate-400">Sistem internal</span>
+    </div>
+
+    <div class="flex-1 flex items-center">
+      <div class="w-full max-w-md mx-auto lg:mx-0 enter">
+        <div class="flex items-center gap-2.5 mb-10">
+          <div class="w-9 h-9 bg-ink rounded-lg grid place-items-center">
+            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>
+          </div>
+          <span class="font-display font-extrabold text-xl tracking-tight text-ink">SurveyBiz</span>
+        </div>
+
+        <h1 class="font-display font-extrabold text-4xl tracking-tight text-ink mb-2">Selamat datang kembali</h1>
+        <p class="text-slate-500 mb-9">Masuk dengan akun terverifikasi untuk membuka dasbor Anda.</p>
+
+        <form id="loginForm" class="space-y-5">
+          <div>
+            <label for="email" class="block text-sm font-medium text-slate-700 mb-1.5">Email</label>
+            <div class="relative">
+              <svg class="absolute left-3.5 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+              <input type="email" id="email" required autocomplete="username" placeholder="admin@surveybiz.com"
+                class="w-full pl-11 pr-4 py-3 bg-white border border-slate-300 rounded-lg placeholder:text-slate-400 focus:outline-none focus:border-brand focus:ring-4 focus:ring-indigo-100 transition">
+            </div>
+          </div>
+
+          <div>
+            <label for="password" class="block text-sm font-medium text-slate-700 mb-1.5">Kata sandi</label>
+            <div class="relative">
+              <svg class="absolute left-3.5 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+              <input type="password" id="password" required autocomplete="current-password" placeholder="••••••••"
+                class="w-full pl-11 pr-12 py-3 bg-white border border-slate-300 rounded-lg placeholder:text-slate-400 focus:outline-none focus:border-brand focus:ring-4 focus:ring-indigo-100 transition">
+              <button type="button" id="togglePw" aria-label="Tampilkan kata sandi" class="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-md text-slate-400 hover:text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-brand">
+                <svg id="eyeOn" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
+                <svg id="eyeOff" class="w-5 h-5 hidden" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M3 3l18 18M10.6 6.1A9.8 9.8 0 0 1 12 5c6.5 0 10 7 10 7a17 17 0 0 1-3.2 4M6.3 6.9A16.6 16.6 0 0 0 2 12s3.5 7 10 7c1.6 0 3-.4 4.2-1M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between text-sm">
+            <label class="flex items-center gap-2 text-slate-600 cursor-pointer select-none">
+              <input type="checkbox" class="w-4 h-4 rounded border-slate-300 text-brand focus:ring-brand">
+              Ingat saya
+            </label>
+            <a href="#" class="font-medium text-brand hover:text-ink transition-colors">Lupa kata sandi?</a>
+          </div>
+
+          <div id="errorMessage" role="alert" class="hidden text-sm font-medium text-red-700 bg-red-50 border border-red-200 rounded-lg px-4 py-3"></div>
+
+          <button type="submit" id="loginBtn"
+            class="w-full py-3.5 px-4 bg-ink hover:bg-brand text-white font-bold rounded-lg shadow-[0_8px_20px_rgba(30,27,75,.18)] transition-colors focus:outline-none focus:ring-4 focus:ring-indigo-200 disabled:opacity-60 disabled:cursor-not-allowed">
+            Masuk
+          </button>
+        </form>
+
+        <p class="mt-8 text-sm text-slate-500">Butuh akses atau lupa akun? Hubungi <a href="mailto:support-data@surveybiz.internal" class="font-medium text-ink underline underline-offset-4 decoration-slate-300 hover:decoration-brand">tim TI internal</a>.</p>
+      </div>
+    </div>
+
+    <p class="text-xs text-slate-400 text-center lg:text-left">&copy; 2026 SurveyBiz Internal System. All rights reserved.</p>
+  </main>
+
+  <!-- Kolom Kanan: Panel Brand -->
+  <aside class="hidden lg:flex lg:w-[54%] p-5">
+    <div class="relative w-full rounded-3xl overflow-hidden bg-ink text-white flex flex-col justify-between p-12 xl:p-16">
+      <!-- Foto opsional; panel tetap rapi bila file tidak ada -->
+      <img src="./img/data-center-server.jpg" alt="" class="absolute inset-0 w-full h-full object-cover opacity-25 mix-blend-luminosity" onerror="this.remove()">
+      <div class="absolute inset-0 grid-bg [mask-image:radial-gradient(ellipse_at_30%_20%,#000,transparent_75%)]"></div>
+      <div class="absolute -bottom-40 -right-40 w-[480px] h-[480px] rounded-full bg-brand/40 blur-3xl"></div>
+
+      <div class="relative flex items-center gap-2 text-sm text-white/70">
+        <span class="w-2 h-2 rounded-full bg-indigo-300"></span> Pusat Data &middot; Denpasar
+      </div>
+
+      <div class="relative max-w-xl">
+        <h2 class="font-display font-extrabold text-4xl xl:text-5xl leading-[1.08] tracking-tight mb-5">Pantau data pelanggan Anda dari satu ruang kerja.</h2>
+        <p class="text-white/70 text-lg leading-relaxed">Visualisasi, validasi, dan manajemen basis data terpusat, dengan akses yang disesuaikan untuk setiap peran.</p>
+
+        <ul class="mt-10 divide-y divide-white/10 border-y border-white/10">
+          <li class="flex items-center gap-4 py-4">
+            <svg class="w-5 h-5 text-indigo-300 shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+            <span class="text-white/90">Validasi otomatis: format, data kosong, dan duplikat</span>
+          </li>
+          <li class="flex items-center gap-4 py-4">
+            <svg class="w-5 h-5 text-indigo-300 shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M17 5a3.5 3.5 0 0 1 0 6.5M18.5 14.5a6.5 6.5 0 0 1 3 5.5"/></svg>
+            <span class="text-white/90">Akses terpisah untuk Admin, Analyst, dan Manager</span>
+          </li>
+          <li class="flex items-center gap-4 py-4">
+            <svg class="w-5 h-5 text-indigo-300 shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-6"/></svg>
+            <span class="text-white/90">Laporan visual siap dibaca pimpinan</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="relative flex items-center justify-between text-xs text-white/50">
+        <span>SurveyBiz Enterprise Platform</span>
+        <span>v2.4.0-Stable</span>
+      </div>
+    </div>
+  </aside>
+</div>
+<script src="./js/app.js"></script>
+</body>
+</html>
